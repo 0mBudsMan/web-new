@@ -46,7 +46,7 @@
 	</div>
 </nav>
 
-<InstallBtn />
+
 
 <style>
 	:root {
