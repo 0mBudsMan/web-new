@@ -1,0 +1,286 @@
+<script>
+	import { gsap } from 'gsap';
+	import Button from '$lib/components/Button.svelte';
+	import Grid from '$lib/components/Grid.svelte';
+	import Skills from '$lib/components/Skills.svelte';
+	import Bento from '$lib/components/Bento.svelte';
+	import SEO from '$lib/data/SEO.svelte';
+	import CardFlip from '$lib/components/CardFlip.svelte';
+	import Tooltip from '$lib/components/Tooltip.svelte';
+	import UsefulLinks from '$lib/components/UsefulLinks.svelte';
+	import HeroImage from '$lib/components/HeroImage.svelte';
+
+	$effect(() => {
+		const main = document.querySelector('main');
+
+		console.log(main);
+
+		gsap.set(['.first', '.second', '.third'], { yPercent: 25, autoAlpha: 0 });
+		gsap.set(['.hero', '.content_width'], { yPercent: 25, autoAlpha: 0 });
+
+		const tl = gsap.timeline();
+
+		tl.to('.first', {
+			yPercent: 0,
+			autoAlpha: 1,
+			duration: 1.25,
+			ease: 'power2.out',
+			stagger: 0.5,
+			delay: 0.3
+		})
+			.to(
+				'.second',
+				{
+					yPercent: 0,
+					autoAlpha: 1,
+					duration: 1.25,
+					ease: 'power2.out',
+					stagger: 0.5,
+					delay: 0.4
+				},
+				'-=1'
+			)
+			.to(
+				['.hero', '.content_width'],
+				{
+					yPercent: 0,
+					autoAlpha: 1,
+					duration: 1.25,
+					ease: 'power2.out',
+					delay: 0.5
+				},
+				'-=.75'
+			)
+			.to(
+				'.third',
+				{
+					yPercent: 0,
+					autoAlpha: 1,
+					duration: 1.25,
+					ease: 'power2.out',
+					delay: 0.6
+				},
+				'-=.75'
+			);
+
+		return () => {
+			gsap.killTweensOf('.third');
+			gsap.killTweensOf('.hero');
+			gsap.killTweensOf('.content_width');
+			gsap.killTweensOf('.second');
+			gsap.killTweensOf('.first');
+			gsap.killTweensOf('article');
+		};
+	});
+</script>
+
+<svelte:head>
+	<link rel="preload" as="image" href="/logos/wireframeBg.webp" type="image/webp" />
+</svelte:head>
+
+<SEO
+	title="Who is Gabe Atwell?"
+	description="All about Gabriel Atwell"
+	keywords="about gabe, about gabriel, gabe's bio, about me"
+/>
+
+<main aria-label="bio">
+	<section>
+		<article id="bio">
+			<HeroImage src="/logos/wireframeBg.webp" alt="a laptop hero image" title="About Me" />
+
+			<div class="bio" aria-label="bio">
+				<p class="text first indent">
+					My name is Gabriel Atwell and I am a frontend web developer. I started out with the
+					basics: HTML, CSS, and JavaScript. I then moved on to more advanced topics such as
+					Svelte/Sveltekit, Node.js, GSAP, and a little bit of three.js but I have begun to teach
+					myself the backend of web development on my spare time with backend languages like Python
+					to become more of a fullstack developer.
+				</p>
+
+				<p class="text second">
+					I have a passion for creating websites that are clean, crisp, and completely functional. I
+					enjoy seeing a physical change when I edit or create code. I also enjoy creating
+					animations for the web! I mainly enjoy animating the web because I believe that it makes
+					the website look more professional and more appealing to the eye. In the world of web
+					development, creating engaging and visually appealing animations is essential to grab the
+					attention of users. I'm a natural problem-solver who thrives on turning complex problems
+					into simple, beautiful solutions. I believe in the power of collaboration and continuous
+					learning.
+				</p>
+
+				<article class="hero text-hero text__w" aria-label="bio">
+					<p class="text content_width">
+						Here is another hero section that I created but I like the current hero section (with a
+						static image) that shows when you first come to the website. This hero section was built
+						with three.js.. Check out it out!
+					</p>
+
+					<div class="hero">
+						<div class="icons">
+							<Button href="/about/hero" title="Hero" />
+
+							<Tooltip title="💡" hover="made with three.js" />
+						</div>
+					</div>
+				</article>
+
+				<p class="text third indent">
+					Please note: This is a PWA (Progressive Web App) so you can install it on your device if
+					you want to! This makes your website able to be used on any device.. mobile, tablet,
+					laptop, and desktop. It's like having a mobile app that is not made with native
+					technologies! It works on Android and iPhone. There is also offline capabilities, so if
+					your internet goes out, you can still access the site because your device downloads and
+					caches the whole site! If you don't have it installed, you should see an install button on
+					the bottom-left of the screen. If you press it, an installation prompt should appear. The
+					prompt will only appear after some user interactions (clicks). If you have any questions,
+					please feel free to contact me!
+				</p>
+			</div>
+
+			<Skills />
+
+			<Grid leftTitle="Frontend" rightTitle="Design based" />
+
+			<Bento link="Contact me if you have a question!" />
+
+			<CardFlip
+				src="/logos/heart-skull.webp"
+				alt="Atwell sparrow logo"
+				src2="/logos/skull-glass.webp"
+				alt2="a blue A logo"
+			/>
+
+			<UsefulLinks />
+		</article>
+	</section>
+</main>
+
+<style>
+	:root {
+		--100: 100%;
+	}
+
+	@media screen and (width >= 300px) {
+		main {
+			width: var(--100);
+			margin-inline: auto;
+
+			& section {
+				display: block;
+				margin-inline: auto;
+				text-align: center;
+				width: var(--100);
+				color: var(--text-color);
+
+				& article {
+					font-size: clamp(0.8rem, 2vw, 1rem);
+					width: var(--100);
+					margin-inline: auto;
+					background-color: transparent;
+					box-shadow: none;
+					color: var(--text-color);
+				}
+
+				& .bio {
+					color: var(--white);
+					position: relative;
+
+					& .icons {
+						display: flex;
+						justify-content: space-evenly;
+						align-items: center;
+						gap: 0.25rem;
+						margin-left: 3rem;
+						padding-right: 1.2rem;
+					}
+
+					& .indent {
+						text-indent: 2em;
+					}
+
+					& .text {
+						max-width: var(--100);
+						margin-inline: auto;
+						font-size: clamp(1.2rem, 1.5vw, 2rem);
+						font-weight: 500;
+						line-height: 1.5;
+						text-wrap: none;
+						z-index: 7;
+						color: var(--text-color);
+					}
+
+					& .text-hero {
+						font-size: 1.35rem;
+					}
+				}
+			}
+
+			& p {
+				text-align: left;
+				color: var(--text-color);
+			}
+
+			& .hero {
+				width: var(--100);
+				margin-inline: auto;
+				color: var(--text-color);
+			}
+		}
+	}
+
+	@media (width >= 600px) {
+		.hero {
+			width: 90%;
+		}
+	}
+
+	@media screen and (width >= 990px) {
+		section {
+			display: block;
+			width: var(--100);
+			margin: 5rem auto;
+
+			& article {
+				width: var(--100);
+				margin: 0 auto;
+			}
+
+			& .bio {
+				margin-bottom: -5rem;
+
+				& .icons {
+					margin-left: 0;
+					margin-top: 2rem;
+					padding-right: 0;
+				}
+
+				& .text {
+					max-width: 90%;
+					line-height: 1.75;
+				}
+
+				& .content_width {
+					margin-bottom: -2rem;
+				}
+
+				& .text__w {
+					width: 75%;
+					margin: 0 auto;
+				}
+			}
+		}
+	}
+
+	@media (width >= 1024px) {
+		.hero {
+			width: 70%;
+		}
+	}
+
+	@media (width >= 1400px) {
+		.hero {
+			width: 70%;
+		}
+	}
+</style>
